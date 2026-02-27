@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nada Academy - ندى أكاديمي لتحفيظ القرآن الكريم</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #0d3b66;
+            --deep-blue: #1a2c4e;
+            --gold: #e6b450;
+            --light-gold: #f4d06f;
+            --cream: #f9f3e9;
+            --light-cream: #fffcf5;
+            --dark-text: #1e293b;
+            --light-text: #64748b;
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--deep-blue) 100%);
+            --gradient-gold: linear-gradient(135deg, var(--gold) 0%, var(--light-gold) 100%);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 15px 40px rgba(0, 0, 0, 0.08);
+            --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.12);
+            --shadow-gold: 0 10px 20px rgba(230, 180, 80, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+        
+        body {
+            font-family: 'Cairo', 'El Messiri', sans-serif;
+            background-color: var(--light-cream);
+            color: var(--dark-text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(230, 180, 80, 0.08) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, rgba(13, 59, 102, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            padding: 8px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .lang-btn:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-gold);
+        }
+        
+        .lang-btn.active {
+            background: var(--gradient-gold);
+            color: var(--deep-blue);
+        }
+        
+        /* Sidebar Icons for Mobile */
+        .sidebar-icons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            background: white;
+            padding: 15px 10px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-strong);
+            transition: var(--transition);
+        }
+        
+        .sidebar-icons.show {
+            display: flex;
+        }
+        
+        .sidebar-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .sidebar-icon:hover {
+            background: var(--gradient-gold);
+            color: var(--deep-blue);
+            transform: translateY(-5px);
+        }
+        
+        .sidebar-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            color: var(--deep-blue);
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: var(--shadow-medium);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .sidebar-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .sidebar-toggle.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-soft);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 5%;
+            transition: var(--transition);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-circle {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-gold);
+        }
+        
+        .logo-circle i {
+            font-size: 28px;
+            color: var(--deep-blue);
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-text h1 {
+            font-family: 'El Messiri', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            font-size: 14px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 600;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+        
+        nav a:hover,
+        nav a.active {
+            background: var(--gradient-gold);
+            color: var(--deep-blue);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .btn-primary {
+            padding: 12px 28px;
+            background: var(--gradient-gold);
+            color: var(--deep-blue);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: var(--shadow-medium);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-strong);
+        }
+        
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 180px 5% 120px;
+            background: var(--gradient-primary);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-text {
+            color: white;
+        }
+        
+        .hero-text h2 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .hero-text p {
+            font-size: 20px;
+            margin-bottom: 35px;
+            opacity: 0.9;
+        }
+        
+        .hero-highlight {
+            color: var(--light-gold);
+        }
+        
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .quran-static {
+            width: 320px;
+            height: 420px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-strong);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .quran-cover {
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quran-title {
+            color: var(--light-gold);
+            font-family: 'Amiri', serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        .quran-subtitle {
+            color: white;
+            font-size: 18px;
+            opacity: 0.8;
+        }
+        
+        /* Sections */
+        .section {
+            padding: 100px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 42px;
+            color: var(--primary-blue);
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .section-title h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-gold);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            font-size: 18px;
+            color: var(--light-text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Quran Section */
+        .quran-container {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+            margin-top: 50px;
+        }
+        
+        .quran-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .quran-header h3 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .quran-controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .quran-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quran-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+        
+        .quran-content {
+            padding: 40px;
+            max-height: 600px;
+            overflow-y: auto;
+            direction: rtl;
+        }
+        
+        .surah {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .surah:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .surah-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: rgba(13, 59, 102, 0.03);
+            border-radius: 10px;
+        }
+        
+        .surah-name {
+            font-family: 'Amiri', serif;
+            font-size: 28px;
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+        
+        .surah-details {
+            color: var(--light-text);
+            font-size: 16px;
+        }
+        
+        .surah-text {
+            font-family: 'Amiri', serif;
+            font-size: 24px;
+            line-height: 2.2;
+            text-align: justify;
+            color: var(--dark-text);
+        }
+        
+        /* Hadith Section */
+        .hadith-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .hadith-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 35px 30px;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hadith-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-strong);
+        }
+        
+        .hadith-card::before {
+            content: "﴿﴾";
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-family: 'Amiri', serif;
+            font-size: 24px;
+            color: rgba(230, 180, 80, 0.15);
+        }
+        
+        .hadith-text {
+            font-family: 'Amiri', serif;
+            font-size: 20px;
+            line-height: 1.8;
+            color: var(--dark-text);
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .hadith-reference {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 16px;
+            text-align: left;
+        }
+        
+        /* Stories Section */
+        .stories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .story-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 35px 30px;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .story-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-strong);
+        }
+        
+        .story-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-gold);
+        }
+        
+        .story-title {
+            font-size: 22px;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .story-title i {
+            color: var(--gold);
+        }
+        
+        .story-content {
+            color: var(--light-text);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .story-moral {
+            padding: 15px;
+            background: rgba(230, 180, 80, 0.05);
+            border-radius: 10px;
+            border-right: 3px solid var(--gold);
+            font-style: italic;
+        }
+        
+        /* Questions Section */
+        .questions-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 35px 30px;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+        
+        .question-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-strong);
+        }
+        
+        .question-card h3 {
+            color: var(--primary-blue);
+            font-size: 20px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+        }
+        
+        .question-card p {
+            color: var(--light-text);
+            line-height: 1.7;
+        }
+        
+        .answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(230, 180, 80, 0.05);
+            border-radius: 10px;
+            border-right: 3px solid var(--gold);
+        }
+        
+        .answer strong {
+            color: var(--primary-blue);
+        }
+        
+        /* Pricing Section */
+        .pricing-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .pricing-card.popular::before {
+            content: "الأكثر طلباً";
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--gradient-gold);
+            color: var(--deep-blue);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            z-index: 2;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-strong);
+        }
+        
+        .pricing-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .pricing-header h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .pricing-header .price {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .pricing-header .period {
+            opacity: 0.8;
+            font-size: 16px;
+        }
+        
+        .pricing-body {
+            padding: 30px;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pricing-features li i {
+            color: var(--gold);
+            font-size: 18px;
+        }
+        
+        .pricing-note {
+            background: rgba(230, 180, 80, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--light-text);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .btn-pricing {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            text-align: center;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+        }
+        
+        .btn-pricing:hover {
+            background: var(--gradient-gold);
+            color: var(--deep-blue);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        /* Registration Form */
+        .registration-section {
+            background: var(--gradient-primary);
+            padding: 100px 5%;
+        }
+        
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 50px;
+            box-shadow: var(--shadow-strong);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .form-header h2 {
+            font-size: 36px;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(230, 180, 80, 0.1);
+        }
+        
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-gold);
+            color: var(--deep-blue);
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 30px;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-strong);
+        }
+        
+        .whatsapp-note {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(37, 211, 102, 0.1);
+            border-radius: 10px;
+            color: #25D366;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--deep-blue);
+            color: white;
+            padding: 80px 5% 40px;
+        }
+        
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-col h3 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: var(--light-gold);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gold);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--gold);
+            color: var(--deep-blue);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 50px;
+            }
+            
+            .hero-text h2 {
+                font-size: 42px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: var(--shadow-strong);
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .hero {
+                padding: 150px 5% 80px;
+            }
+            
+            .hero-text h2 {
+                font-size: 36px;
+            }
+            
+            .section {
+                padding: 80px 5%;
+            }
+            
+            .section-title h2 {
+                font-size: 34px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .registration-container {
+                padding: 30px;
+            }
+            
+            .sidebar-toggle {
+                display: flex;
+            }
+            
+            .language-switcher {
+                top: 100px;
+                right: 10px;
+            }
+            
+            .hadith-container,
+            .stories-container,
+            .questions-container,
+            .pricing-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-text h2 {
+                font-size: 30px;
+            }
+            
+            .hero-text p {
+                font-size: 18px;
+            }
+            
+            .section-title h2 {
+                font-size: 28px;
+            }
+            
+            .quran-static {
+                width: 280px;
+                height: 370px;
+            }
+            
+            .quran-title {
+                font-size: 28px;
+            }
+            
+            .language-switcher {
+                flex-direction: column;
+                padding: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="ar">ع</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <!-- Sidebar Icons for Mobile -->
+    <div class="sidebar-icons" id="sidebarIcons">
+        <a href="#home" class="sidebar-icon" onclick="closeSidebar()">
+            <i class="fas fa-home"></i>
+        </a>
+        <a href="#quran" class="sidebar-icon" onclick="closeSidebar()">
+            <i class="fas fa-book-quran"></i>
+        </a>
+        <a href="#hadith" class="sidebar-icon" onclick="closeSidebar()">
+            <i class="fas fa-quote-right"></i>
+        </a>
+        <a href="#stories" class="sidebar-icon" onclick="closeSidebar()">
+            <i class="fas fa-book"></i>
+        </a>
+        <a href="#pricing" class="sidebar-icon" onclick="closeSidebar()">
+            <i class="fas fa-tags"></i>
+        </a>
+        <a href="#registration" class="sidebar-icon" onclick="closeSidebar()">
+            <i class="fas fa-user-plus"></i>
+        </a>
+    </div>
+    
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <i class="fas fa-book-quran"></i>
+                </div>
+                <div class="logo-text">
+                    <h1 class="ar-text">Nada Academy</h1>
+                    <span class="ar-text">ندى أكاديمي لتحفيظ القرآن الكريم</span>
+                </div>
+            </div>
+            
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home" class="active ar-text">الرئيسية</a></li>
+                    <li><a href="#quran" class="ar-text">المصحف الكريم</a></li>
+                    <li><a href="#hadith" class="ar-text">الأحاديث النبوية</a></li>
+                    <li><a href="#stories" class="ar-text">قصص الأنبياء</a></li>
+                    <li><a href="#questions" class="ar-text">أسئلة فقهية</a></li>
+                    <li><a href="#pricing" class="ar-text">الباقات والأسعار</a></li>
+                    <li><a href="#contact" class="ar-text">التواصل</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <a href="#registration" class="btn-primary ar-text" id="headerRegisterBtn">سجل الآن</a>
+                <button class="mobile-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h2 class="ar-text">تعلّم <span class="hero-highlight">تلاوة القرآن الكريم</span> بثقة وإتقان</h2>
+                <p class="ar-text">انضم إلى أكاديمية ندى لتعلم القرآن الكريم بأحدث الطرق التعليمية مع معلمين ومعلمات متخصصين في التجويد والقراءات</p>
+                <a href="#registration" class="btn-primary ar-text" id="heroRegisterBtn">ابدأ رحلتك القرآنية الآن</a>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="quran-static">
+                    <div class="quran-cover">
+                        <div class="quran-title ar-text">نور لقلبك ورفعة في دنياك وآخرتك</div>
+                        <div class="quran-subtitle">Nada Quran Academy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quran Section -->
+    <section id="quran" class="section" style="background-color: #f8fafc;">
+        <div class="section-title">
+            <h2 class="ar-text">المصحف الكريم</h2>
+            <p class="ar-text">اقرأ واستمع إلى القرآن الكريم كاملًا مع التفسير الميسر</p>
+        </div>
+        
+        <div class="quran-container">
+            <div class="quran-header">
+                <h3 class="ar-text">المصحف الكريم - الجزء الأول</h3>
+                <div class="quran-controls">
+                    <button class="quran-btn" onclick="playAudio()">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="quran-btn" onclick="pauseAudio()">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    <button class="quran-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="quran-content">
+                <div class="surah">
+                    <div class="surah-header">
+                        <div class="surah-name">سورة الفاتحة</div>
+                        <div class="surah-details ar-text">مكية - 7 آيات</div>
+                    </div>
+                    <div class="surah-text">
+                        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ (1) الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ (2) الرَّحْمَٰنِ الرَّحِيمِ (3) مَالِكِ يَوْمِ الدِّينِ (4) إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ (5) اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ (6) صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ (7)
+                    </div>
+                </div>
+                
+                <div class="surah">
+                    <div class="surah-header">
+                        <div class="surah-name">سورة البقرة</div>
+                        <div class="surah-details ar-text">مدنية - 286 آية</div>
+                    </div>
+                    <div class="surah-text">
+                        الم (1) ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ (2) الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ (3) وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ (4) أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ (5)
+                    </div>
+                </div>
+                
+                <div class="surah">
+                    <div class="surah-header">
+                        <div class="surah-name">سورة آل عمران</div>
+                        <div class="surah-details ar-text">مدنية - 200 آية</div>
+                    </div>
+                    <div class="surah-text">
+                        الم (1) اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ (2) نَزَّلَ عَلَيْكَ الْكِتَابَ بِالْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ التَّوْرَاةَ وَالْإِنجِيلَ (3) مِن قَبْلُ هُدًى لِّلنَّاسِ وَأَنزَلَ الْفُرْقَانَ ۗ إِنَّ الَّذِينَ كَفَرُوا بِآيَاتِ اللَّهِ لَهُمْ عَذَابٌ شَدِيدٌ ۗ وَاللَّهُ عَزِيزٌ ذُو انتِقَامٍ (4)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hadith Section -->
+    <section id="hadith" class="section">
+        <div class="section-title">
+            <h2 class="ar-text">الأحاديث النبوية الشريفة</h2>
+            <p class="ar-text">مجموعة منتقاة من أحاديث رسول الله صلى الله عليه وسلم</p>
+        </div>
+        
+        <div class="hadith-container">
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى".</div>
+                <div class="hadith-reference ar-text">رواه البخاري ومسلم</div>
+            </div>
+            
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "من حسن إسلام المرء تركه ما لا يعنيه".</div>
+                <div class="hadith-reference ar-text">رواه الترمذي</div>
+            </div>
+            
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه".</div>
+                <div class="hadith-reference ar-text">رواه البخاري ومسلم</div>
+            </div>
+            
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "الكلمة الطيبة صدقة".</div>
+                <div class="hadith-reference ar-text">رواه البخاري ومسلم</div>
+            </div>
+            
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "اتق الله حيثما كنت، وأتبع السيئة الحسنة تمحها، وخالق الناس بخلق حسن".</div>
+                <div class="hadith-reference ar-text">رواه الترمذي</div>
+            </div>
+            
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "المسلم من سلم المسلمون من لسانه ويده".</div>
+                <div class="hadith-reference ar-text">رواه البخاري ومسلم</div>
+            </div>
+            
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "من لا يشكر الناس لا يشكر الله".</div>
+                <div class="hadith-reference ar-text">رواه أبو داود</div>
+            </div>
+            
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "تبسمك في وجه أخيك صدقة".</div>
+                <div class="hadith-reference ar-text">رواه الترمذي</div>
+            </div>
+            
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "خيركم من تعلم القرآن وعلمه".</div>
+                <div class="hadith-reference ar-text">رواه البخاري</div>
+            </div>
+            
+            <div class="hadith-card">
+                <div class="hadith-text ar-text">قال رسول الله صلى الله عليه وسلم: "إن الله يحب إذا عمل أحدكم عملاً أن يتقنه".</div>
+                <div class="hadith-reference ar-text">رواه البيهقي</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stories Section -->
+    <section id="stories" class="section" style="background-color: #f8fafc;">
+        <div class="section-title">
+            <h2 class="ar-text">قصص الأنبياء عليهم السلام</h2>
+            <p class="ar-text">قصص مختصرة عن الأنبياء والرسل مع العبر والدروس</p>
+        </div>
+        
+        <div class="stories-container">
+            <div class="story-card">
+                <div class="story-title">
+                    <i class="fas fa-user"></i>
+                    <span class="ar-text">قصة النبي آدم عليه السلام</span>
+                </div>
+                <div class="story-content ar-text">
+                    هو أول البشر وأول الأنبياء. خلقه الله من تراب ونفخ فيه من روحه. أسكنه الجنة مع زوجته حواء، ثم أنزلهما إلى الأرض بعد أن أكلا من الشجرة التي نهاهما الله عنها. علمه الله الأسماء كلها.
+                </div>
+                <div class="story-moral ar-text">
+                    العبرة: أهمية طاعة الله والابتعاد عن المعصية.
+                </div>
+            </div>
+            
+            <div class="story-card">
+                <div class="story-title">
+                    <i class="fas fa-ship"></i>
+                    <span class="ar-text">قصة النبي نوح عليه السلام</span>
+                </div>
+                <div class="story-content ar-text">
+                    أرسله الله إلى قومه فدعاهم 950 سنة، فلما كذبوه أوحى الله إليه أن يصنع السفينة. ثم أغرق الله الكافرين بالطوفان ونجى نوحاً والمؤمنين معه. كانت السفينة تحمل من كل زوجين اثنين.
+                </div>
+                <div class="story-moral ar-text">
+                    العبرة: الصبر على الدعوة وعدم اليأس.
+                </div>
+            </div>
+            
+            <div class="story-card">
+                <div class="story-title">
+                    <i class="fas fa-mosque"></i>
+                    <span class="ar-text">قصة النبي إبراهيم عليه السلام</span>
+                </div>
+                <div class="story-content ar-text">
+                    حطم أصنام قومه، فحكم عليه النمرود بالحرق، لكن الله جعل النار برداً وسلاماً. ثم أمره الله ببناء الكعبة مع ابنه إسماعيل. اختبره الله بذبح ابنه إسماعيل فامتثل وافتداه الله بكبش عظيم.
+                </div>
+                <div class="story-moral ar-text">
+                    العبرة: التوحيد الخالص والتضحية في سبيل الله.
+                </div>
+            </div>
+            
+            <div class="story-card">
+                <div class="story-title">
+                    <i class="fas fa-staff-snake"></i>
+                    <span class="ar-text">قصة النبي موسى عليه السلام</span>
+                </div>
+                <div class="story-content ar-text">
+                    أرسله الله إلى فرعون، فأعطاه الله التسع آيات، فلما كذب فرعون أغرق الله فرعون وجنوده في اليم، ونجى موسى والمؤمنين. أنزل الله عليه التوراة، وكلمه تكليماً.
+                </div>
+                <div class="story-moral ar-text">
+                    العبرة: الثقة بنصر الله مهما طال الظلم.
+                </div>
+            </div>
+            
+            <div class="story-card">
+                <div class="story-title">
+                    <i class="fas fa-heart"></i>
+                    <span class="ar-text">قصة النبي عيسى عليه السلام</span>
+                </div>
+                <div class="story-content ar-text">
+                    ولد من مريم العذراء بدون أب، وأعطاه الله إحياء الموتى وإبراء الأكمه والأبرص بإذن الله. أنزل عليه الإنجيل، ثم رفعه الله إليه قبل أن يصلبوه.
+                </div>
+                <div class="story-moral ar-text">
+                    العبرة: قدرة الله على كل شيء.
+                </div>
+            </div>
+            
+            <div class="story-card">
+                <div class="story-title">
+                    <i class="fas fa-star-and-crescent"></i>
+                    <span class="ar-text">قصة النبي محمد صلى الله عليه وسلم</span>
+                </div>
+                <div class="story-content ar-text">
+                    ولد في مكة، ونزل عليه الوحي وعمره 40 سنة. دعا الناس 13 سنة في مكة، ثم هاجر إلى المدينة. فتح مكة، وبلَّغ الرسالة وأدى الأمانة. توفي عن 63 سنة بعد أن أكمل الله به الدين.
+                </div>
+                <div class="story-moral ar-text">
+                    العبرة: الصبر والمثابرة في تبليغ الرسالة.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Questions Section -->
+    <section id="questions" class="section">
+        <div class="section-title">
+            <h2 class="ar-text">أسئلة فقهية وشرعية</h2>
+            <p class="ar-text">إجابات عن أسئلة فقهية شائعة والفرق بين الحلال والحرام</p>
+        </div>
+        
+        <div class="questions-container">
+            <div class="question-card">
+                <h3 class="ar-text">ما حكم الصلاة بدون وضوء؟</h3>
+                <p class="ar-text">الوضوء شرط من شروط صحة الصلاة، فلا تصح الصلاة بدونه.</p>
+                <div class="answer">
+                    <strong class="ar-text">الجواب:</strong> <span class="ar-text">الصلاة بدون وضوء لا تصح، لأن الطهارة من شروط صحة الصلاة، وقد قال رسول الله صلى الله عليه وسلم: "لا يقبل الله صلاة أحدكم إذا أحدث حتى يتوضأ".</span>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <h3 class="ar-text">ما الفرق بين الربا والبيع؟</h3>
+                <p class="ar-text">الربا محرم وهو زيادة مشروطة في القرض أو البيع، بينما البيع حلال وهو مبادلة مال بمال.</p>
+                <div class="answer">
+                    <strong class="ar-text">الجواب:</strong> <span class="ar-text">البيع مبادلة مال بمال بالتراضي، أما الربا فهو الزيادة في أحد البدلين من جنس واحد كالذهب بالذهب، أو التأخير في القرض مع زيادة، وهو محرم بنص القرآن.</span>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <h3 class="ar-text">ما حكم العمل في البنوك الربوية؟</h3>
+                <p class="ar-text">العمل في البنوك الربوية الذي يتضمن التعامل بالربا محرم.</p>
+                <div class="answer">
+                    <strong class="ar-text">الجواب:</strong> <span class="ar-text">العمل في البنوك الربوية محرم إذا كان يتضمن التعامل بالربا أو الإعانة عليه، لأنه من التعاون على الإثم. لكن إذا كان العمل في قسم إسلامي لا يتعامل بالربا جاز.</span>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <h3 class="ar-text">ما الفرق بين الغيبة والنميمة؟</h3>
+                <p class="ar-text">الغيبة ذكر المسلم بما يكره في غيابه، والنميمة نقل الكلام للإفساد بين الناس.</p>
+                <div class="answer">
+                    <strong class="ar-text">الجواب:</strong> <span class="ar-text">الغيبة أن تذكر أخاك بما يكره في غيابه. أما النميمة فهي نقل الكلام بين الناس بقصد الإفساد. كلاهما من الكبائر المحرمة.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section" style="background-color: #f8fafc;">
+        <div class="section-title">
+            <h2 class="ar-text">باقاتنا وأسعارنا</h2>
+            <p class="ar-text">اختر الباقة المناسبة لك ولأسرتك</p>
+        </div>
+        
+        <div class="pricing-container">
+            <!-- مصر - الباقة الأولى -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="ar-text">مصر 🇪🇬</h3>
+                    <div class="price">150 ج.م</div>
+                    <div class="period ar-text">حلقة واحدة أسبوعياً<br>بمعدل 4 حلقات شهرياً</div>
+                </div>
+                <div class="pricing-body">
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i><span class="ar-text">حصة واحدة أسبوعياً</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">متابعة فردية</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">تسجيلات للحصص</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">مواد تعليمية مساعدة</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">تقارير أداء شهرية</span></li>
+                    </ul>
+                    <button class="btn-pricing ar-text" onclick="selectPackage('حلقة واحدة أسبوعياً - مصر (150 ج.م)')">سجل الآن</button>
+                </div>
+            </div>
+            
+            <!-- مصر - الباقة الثانية -->
+            <div class="pricing-card popular">
+                <div class="pricing-header">
+                    <h3 class="ar-text">مصر 🇪🇬</h3>
+                    <div class="price">300 ج.م</div>
+                    <div class="period ar-text">حلقتان أسبوعياً<br>بمعدل 8 حلقات شهرياً</div>
+                </div>
+                <div class="pricing-body">
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i><span class="ar-text">حصتان أسبوعياً</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">متابعة فردية مكثفة</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">تسجيلات للحصص</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">مواد تعليمية متقدمة</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">اختبارات دورية</span></li>
+                    </ul>
+                    <button class="btn-pricing ar-text" onclick="selectPackage('حلقتان أسبوعياً - مصر (300 ج.م)')">سجل الآن</button>
+                </div>
+            </div>
+            
+            <!-- مصر - الباقة الثالثة -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="ar-text">مصر 🇪🇬</h3>
+                    <div class="price">450 ج.م</div>
+                    <div class="period ar-text">ثلاث حلقات أسبوعياً<br>بمعدل 12 حلقة شهرياً</div>
+                </div>
+                <div class="pricing-body">
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i><span class="ar-text">ثلاث حصص أسبوعياً</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">متابعة فردية يومية</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">تسجيلات للحصص</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">برنامج متكامل للتجويد</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">تقارير أداء أسبوعية</span></li>
+                    </ul>
+                    <button class="btn-pricing ar-text" onclick="selectPackage('ثلاث حلقات أسبوعياً - مصر (450 ج.م)')">سجل الآن</button>
+                </div>
+            </div>
+            
+            <!-- السعودية - الباقة الأولى -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="ar-text">السعودية 🇸🇦</h3>
+                    <div class="price">50 ر.س</div>
+                    <div class="period ar-text">حلقة واحدة أسبوعياً<br>بمعدل 4 حلقات شهرياً</div>
+                </div>
+                <div class="pricing-body">
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i><span class="ar-text">حصة واحدة أسبوعياً</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">متابعة فردية</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">تسجيلات للحصص</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">مواد تعليمية مساعدة</span></li>
+                    </ul>
+                    <button class="btn-pricing ar-text" onclick="selectPackage('حلقة واحدة أسبوعياً - السعودية (50 ر.س)')">سجل الآن</button>
+                </div>
+            </div>
+            
+            <!-- السعودية - الباقة الثانية -->
+            <div class="pricing-card popular">
+                <div class="pricing-header">
+                    <h3 class="ar-text">السعودية 🇸🇦</h3>
+                    <div class="price">75 ر.س</div>
+                    <div class="period ar-text">حلقتان أسبوعياً<br>بمعدل 8 حلقات شهرياً</div>
+                </div>
+                <div class="pricing-body">
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i><span class="ar-text">حصتان أسبوعياً</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">متابعة فردية مكثفة</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">تسجيلات للحصص</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">مواد تعليمية متقدمة</span></li>
+                    </ul>
+                    <button class="btn-pricing ar-text" onclick="selectPackage('حلقتان أسبوعياً - السعودية (75 ر.س)')">سجل الآن</button>
+                </div>
+            </div>
+            
+            <!-- السعودية - الباقة الثالثة -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="ar-text">السعودية 🇸🇦</h3>
+                    <div class="price">100 ر.س</div>
+                    <div class="period ar-text">ثلاث حلقات أسبوعياً<br>بمعدل 12 حلقة شهرياً</div>
+                </div>
+                <div class="pricing-body">
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i><span class="ar-text">ثلاث حصص أسبوعياً</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">متابعة فردية يومية</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">تسجيلات للحصص</span></li>
+                        <li><i class="fas fa-check"></i><span class="ar-text">برنامج متكامل للتجويد</span></li>
+                    </ul>
+                    <button class="btn-pricing ar-text" onclick="selectPackage('ثلاث حلقات أسبوعياً - السعودية (100 ر.س)')">سجل الآن</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Form -->
+    <section id="registration" class="registration-section">
+        <div class="registration-container">
+            <div class="form-header">
+                <h2 class="ar-text">سجل في الأكاديمية الآن</h2>
+                <p class="ar-text">املأ النموذج وسنتواصل معك عبر الواتساب لتحديد الموعد المناسب</p>
+            </div>
+            
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName" class="ar-text">الاسم الكامل *</label>
+                        <input type="text" id="fullName" name="fullName" class="form-control" required placeholder="أدخل اسمك الكامل">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="ar-text">رقم الهاتف (واتساب) *</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" required placeholder="مثال: 01002766257">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="country" class="ar-text">البلد *</label>
+                        <select id="country" name="country" class="form-control" required>
+                            <option value="">اختر البلد</option>
+                            <option value="مصر">مصر</option>
+                            <option value="السعودية">السعودية</option>
+                            <option value="الإمارات">الإمارات</option>
+                            <option value="دولة أخرى">دولة أخرى</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="package" class="ar-text">الباقة المطلوبة *</label>
+                        <select id="package" name="package" class="form-control" required>
+                            <option value="">اختر الباقة</option>
+                            <option value="حلقة واحدة أسبوعياً - مصر (150 ج.م)">حلقة واحدة أسبوعياً - مصر (150 ج.م)</option>
+                            <option value="حلقتان أسبوعياً - مصر (300 ج.م)">حلقتان أسبوعياً - مصر (300 ج.م)</option>
+                            <option value="ثلاث حلقات أسبوعياً - مصر (450 ج.م)">ثلاث حلقات أسبوعياً - مصر (450 ج.م)</option>
+                            <option value="حلقة واحدة أسبوعياً - السعودية (50 ر.س)">حلقة واحدة أسبوعياً - السعودية (50 ر.س)</option>
+                            <option value="حلقتان أسبوعياً - السعودية (75 ر.س)">حلقتان أسبوعياً - السعودية (75 ر.س)</option>
+                            <option value="ثلاث حلقات أسبوعياً - السعودية (100 ر.س)">ثلاث حلقات أسبوعياً - السعودية (100 ر.س)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age" class="ar-text">عمر الطالب *</label>
+                        <input type="number" id="age" name="age" class="form-control" min="5" max="80" required placeholder="أدخل العمر">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender" class="ar-text">النوع *</label>
+                        <select id="gender" name="gender" class="form-control" required>
+                            <option value="">اختر النوع</option>
+                            <option value="ذكر">ذكر</option>
+                            <option value="أنثى">أنثى</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes" class="ar-text">ملاحظات إضافية (اختياري)</label>
+                    <textarea id="notes" name="notes" class="form-control" rows="3" placeholder="أي معلومات إضافية أو استفسارات..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit ar-text" id="submitBtn">
+                    <i class="fab fa-whatsapp"></i> إرسال التسجيل إلى الواتساب
+                </button>
+                
+                <div class="whatsapp-note">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="ar-text">سيتم تحويلك إلى واتساب مباشرة - رقم التواصل: 01002766257</span>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="ar-text">Nada Academy</h3>
+                <p class="ar-text">أكاديمية ندى لتحفيظ القرآن الكريم تهدف إلى تعليم القرآن الكريم والتجويد عبر الإنترنت بطرق عصرية واحترافية.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/201002766257?text=مرحباً،%20أريد%20الاستفسار%20عن%20أكاديمية%20ندى" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="ar-text">تواصل معنا</h3>
+                <div style="color: rgba(255, 255, 255, 0.8);">
+                    <p style="margin-bottom: 15px;">
+                        <i class="fas fa-phone-alt"></i> 
+                        <a href="https://wa.me/201002766257" target="_blank" style="color: white; text-decoration: none;">01002766257</a>
+                    </p>
+                    <p style="margin-bottom: 15px;"><i class="fas fa-envelope"></i> info@nadaacademy.com</p>
+                    <p><i class="fas fa-clock"></i> <span class="ar-text">الأحد - الخميس: 9 ص - 10 م</span></p>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="ar-text">القسم النسائي</h3>
+                <p class="ar-text">نوفر فصولاً خاصة للسيدات والبنات مع معلمات مؤهلات في علوم القرآن والتجويد.</p>
+                <p class="ar-text" style="color: var(--light-gold); margin-top: 10px;">حلقات نسائية منفصلة</p>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p class="ar-text">© 2024 Nada Academy - ندى أكاديمي لتحفيظ القرآن الكريم. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // أزرار سجل الآن
+        document.getElementById('headerRegisterBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('registration').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('heroRegisterBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('registration').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        function selectPackage(packageName) {
+            document.getElementById('registration').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                const packageSelect = document.getElementById('package');
+                for (let i = 0; i < packageSelect.options.length; i++) {
+                    if (packageSelect.options[i].value.includes(packageName)) {
+                        packageSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }, 500);
+        }
+
+        // ✅ إصلاح الواتساب - هنا فقط التغيير
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const country = document.getElementById('country').value;
+            const packageSelected = document.getElementById('package').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const notes = document.getElementById('notes').value.trim() || 'لا يوجد';
+            
+            if (!fullName || !phone || !country || !packageSelected || !age || !gender) {
+                alert('⚠️ الرجاء ملء جميع الحقول المطلوبة');
+                return;
+            }
+            
+            // الرقم بالصيغة الدولية (بدون صفر)
+            const phoneNumber = phone.replace(/\D/g, '');
+            const formattedPhone = phoneNumber.startsWith('0') ? '20' + phoneNumber.substring(1) : phoneNumber;
+            
+            const message = `*تسجيل جديد في أكاديمية ندى*
+الاسم: ${fullName}
+الهاتف: ${phone}
+البلد: ${country}
+الباقة: ${packageSelected}
+العمر: ${age}
+النوع: ${gender}
+ملاحظات: ${notes}`;
+            
+            const whatsappURL = `https://wa.me/201002766257?text=${encodeURIComponent(message)}`;
+            
+            // تغيير حالة الزر
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحويل...';
+            submitBtn.disabled = true;
+            
+            // فتح الواتساب
+            window.open(whatsappURL, '_blank');
+            
+            setTimeout(() => {
+                alert('✅ تم تحويلك إلى واتساب. سيتم التواصل معك قريباً.');
+                document.getElementById('registrationForm').reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1000);
+        });
+
+        // القرآن (وهمي)
+        function playAudio() { alert('🔊 سيتم تشغيل التلاوة قريباً...'); }
+        function pauseAudio() { alert('⏸️ سيتم إيقاف التلاوة قريباً...'); }
+
+        // الشريط الجانبي
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarIcons = document.getElementById('sidebarIcons');
+        
+        sidebarToggle.addEventListener('click', function() {
+            if (sidebarIcons.classList.contains('show')) {
+                sidebarIcons.classList.remove('show');
+                this.classList.remove('active');
+                this.innerHTML = '<i class="fas fa-bars"></i>';
+            } else {
+                sidebarIcons.classList.add('show');
+                this.classList.add('active');
+                this.innerHTML = '<i class="fas fa-times"></i>';
+            }
+        });
+
+        function closeSidebar() {
+            if (window.innerWidth <= 768) {
+                sidebarIcons.classList.remove('show');
+                sidebarToggle.classList.remove('active');
+                sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        }
+
+        // القائمة المنسدلة للهواتف
+        const mobileToggle = document.getElementById('mobileMenuToggle');
+        const navUl = document.getElementById('navMenu');
+        
+        mobileToggle.addEventListener('click', () => {
+            if (navUl.style.display === 'flex') {
+                navUl.style.display = 'none';
+            } else {
+                navUl.style.display = 'flex';
+                navUl.style.flexDirection = 'column';
+                navUl.style.position = 'absolute';
+                navUl.style.top = '100%';
+                navUl.style.left = '0';
+                navUl.style.width = '100%';
+                navUl.style.backgroundColor = 'white';
+                navUl.style.padding = '20px';
+                navUl.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // إغلاق القوائم عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!navUl.contains(e.target) && !mobileToggle.contains(e.target)) {
+                    navUl.style.display = 'none';
+                }
+                if (!sidebarIcons.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebarIcons.classList.remove('show');
+                    sidebarToggle.classList.remove('active');
+                    sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            }
+        });
+
+        // إظهار الشريط الجانبي فقط على الهواتف
+        function checkScreenSize() {
+            if (window.innerWidth <= 768) {
+                sidebarToggle.style.display = 'flex';
+            } else {
+                sidebarToggle.style.display = 'none';
+                sidebarIcons.classList.remove('show');
+                sidebarToggle.classList.remove('active');
+                sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        }
+
+        window.addEventListener('load', checkScreenSize);
+        window.addEventListener('resize', checkScreenSize);
+    </script>
+</body>
+</html>
